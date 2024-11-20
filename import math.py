@@ -1,37 +1,25 @@
-import math
+def print_pascals_triangle(num_rows):
+    # 初始化一个空列表来存储杨辉三角形的每一行
+    triangle = []
  
-def print_sin_wave(amplitude, period, width, height):
-    # 创建一个二维字符数组来存储图像
-    image = [[' ' for _ in range(width)] for _ in range(height)]
+    # 逐行生成杨辉三角形
+    for i in range(num_rows):
+        # 每一行开始都是一个1
+        row = [1] * (i + 1)
+        # 中间的元素是上方两个元素之和
+        for j in range(1, i):
+            row[j] = triangle[i - 1][j - 1] + triangle[i - 1][j]
+        # 将当前行添加到三角形中
+        triangle.append(row)
  
-    # 缩放因子，将sin函数的值映射到图像的高度
-    scale_y = height / (2 * amplitude)
-    # 缩放因子，将x值映射到图像的宽度
-    scale_x = width / period
+    # 打印杨辉三角形
+    max_width = len(" ".join(map(str, triangle[-1])))  # 计算最后一行的最大宽度
+    for row in triangle:
+        # 居中打印每一行，前面填充空格
+        print(" " * ((max_width - len(" ".join(map(str, row)))) // 2) + " ".join(map(str, row)))
  
-    # 遍历图像的每一列
-    for x in range(width):
-        # 将x值转换为sin函数的输入值
-        theta = 2 * math.pi * (x / period)
-        # 计算sin函数的值
-        y = amplitude * math.sin(theta)
-        # 将sin函数的值映射到图像的行
-        row = int(height / 2 - y * scale_y)
+# 设置要打印的行数
+num_rows = 10
  
-        # 确保行值在有效范围内
-        if 0 <= row < height:
-            # 使用字符 '*' 来表示sin函数的值
-            image[row][x] = '*'
- 
-    # 打印图像
-    for row in image:
-        print(''.join(row))
- 
-# 参数设置
-amplitude = 10  # 振幅
-period = 40     # 周期
-width = 80      # 图像宽度
-height = 20     # 图像高度
- 
-# 打印sin函数图像
-print_sin_wave(amplitude, period, width, height)
+# 打印杨辉三角形
+print_pascals_triangle(num_rows)
